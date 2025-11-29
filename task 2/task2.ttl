@@ -1,11 +1,11 @@
-@prefix : <http://example.org/family_ontology#> .
+@prefix : <http://www.semanticweb.org/daucatmoi/ontologies/2025/9/family-task2/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 ### ОНТОЛОГИЯ ###
-:family_ontology rdf:type owl:Ontology ;
-    rdfs:label "Family Ontology" .
+<http://www.semanticweb.org/daucatmoi/ontologies/2025/9/family-task2> rdf:type owl:Ontology ;
+    rdfs:label "Family Ontology - Task 2 (daucatmoi)" .
 
 ### КЛАСС ###
 :Человек rdf:type owl:Class ;
@@ -26,30 +26,38 @@
     rdfs:label "hasDescendant" ;
     owl:propertyChainAxiom ( :ИмеетПотомка :ИмеетРодителя ) .
 
+:ЯвляетсяРодителемДля rdf:type owl:ObjectProperty ;
+    rdfs:label "isParentOf" ;
+    owl:inverseOf :ИмеетРодителя .
+
 ### СУЩНОСТИ ###
-:Человек1 rdf:type :Человек ;
-    rdfs:label "Person1" .
+:GGParent rdf:type :Человек ;
+    rdfs:label "GGParent" .
 
-:Человек2 rdf:type :Человек ;
-    rdfs:label "Person2" ;
-    :ИмеетРодителя :Человек1 .
+:GParent rdf:type :Человек ;
+    rdfs:label "GParent" ;
+    :ИмеетРодителя :GGParent .
 
-:Человек3 rdf:type :Человек ;
-    rdfs:label "Person3" ;
-    :ИмеетРодителя :Человек2 .
+:GParent2 rdf:type :Человек ;
+    rdfs:label "GParent2" ;
+    :ИмеетРодителя :GGParent .
 
-:Человек4 rdf:type :Человек ;
-    rdfs:label "Person4" ;
-    :ИмеетРодителя :Человек3 .
+:Parent rdf:type :Человек ;
+    rdfs:label "Parent" ;
+    :ИмеетРодителя :GParent .
 
-:Человек5 rdf:type :Человек ;
-    rdfs:label "Person5" ;
-    :ИмеетРодителя :Человек4 .
+:Parent2 rdf:type :Человек ;
+    rdfs:label "Parent2" ;
+    :ИмеетРодителя :GParent2 .
 
-:Человек6 rdf:type :Человек ;
-    rdfs:label "Person6" ;
-    :ИмеетРодителя :Человек5 .
+:Child rdf:type :Человек ;
+    rdfs:label "Child" ;
+    :ИмеетРодителя :Parent .
 
-:Человек7 rdf:type :Человек ;
-    rdfs:label "Person7" ;
-    :ИмеетРодителя :Человек6 .
+:Child2 rdf:type :Человек ;
+    rdfs:label "Child2" ;
+    :ИмеетРодителя :Parent2 .
+
+:Child3 rdf:type :Человек ;
+    rdfs:label "Child3" ;
+    :ИмеетРодителя :Parent2 .
