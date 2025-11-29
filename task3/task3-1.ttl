@@ -1,1 +1,104 @@
+@prefix : <http://kik.misis.ru/ontology/mpi/2025/Giang-Khac-Ngu/task3/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://kik.misis.ru/ontology/mpi/2025/Giang-Khac-Ngu/task3/> .
 
+:OntologyTask3 rdf:type owl:Ontology ;
+               rdfs:label "Medical Prescriptions Ontology" ;
+               rdfs:comment "Ontology for classifying valid medical prescriptions" .
+
+### Domain Classes
+:Patient rdf:type owl:Class ;
+         rdfs:label "Patient" ;
+         rdfs:comment "Person receiving medical treatment".
+
+:Doctor rdf:type owl:Class ;
+        rdfs:label "Doctor" ;
+        rdfs:comment "Medical professional".
+
+:MedicalDepartment rdf:type owl:Class ;
+                   rdfs:label "Medical department" ;
+                   rdfs:comment "Hospital department or clinic".
+
+:Disease rdf:type owl:Class ;
+         rdfs:label "Disease" ;
+         rdfs:comment "Medical condition or illness".
+
+:Medication rdf:type owl:Class ;
+            rdfs:label "Medication" ;
+            rdfs:comment "Pharmaceutical drug or medicine".
+
+:Prescription rdf:type owl:Class ;
+              rdfs:label "Prescription" ;
+              rdfs:comment "Medical prescription for medication".
+
+:ValidPrescription rdf:type owl:Class ;
+                   rdfs:label "Valid prescription" ;
+                   rdfs:comment "Correct and authorized medical prescription".
+
+### Properties
+:treated_in_department rdf:type owl:ObjectProperty ;
+                       rdfs:label "treated in department" ;
+                       rdfs:domain :Patient ;
+                       rdfs:range :MedicalDepartment .
+
+:works_in_department rdf:type owl:ObjectProperty ;
+                     rdfs:label "works in department" ;
+                     rdfs:domain :Doctor ;
+                     rdfs:range :MedicalDepartment .
+
+:has_prescribing_doctor rdf:type owl:ObjectProperty ;
+                        rdfs:label "has prescribing doctor" ;
+                        rdfs:domain :Prescription ;
+                        rdfs:range :Doctor .
+
+:prescribes_medication rdf:type owl:ObjectProperty ;
+                       rdfs:label "prescribes medication" ;
+                       rdfs:domain :Prescription ;
+                       rdfs:range :Medication .
+
+:specializes_in_disease rdf:type owl:ObjectProperty ;
+                        rdfs:label "specializes in disease" ;
+                        rdfs:domain :MedicalDepartment ;
+                        rdfs:range :Disease .
+
+:indicated_for_disease rdf:type owl:ObjectProperty ;
+                       rdfs:label "indicated for disease" ;
+                       rdfs:domain :Medication ;
+                       rdfs:range :Disease .
+
+:has_diagnosis rdf:type owl:ObjectProperty ;
+               rdfs:label "has diagnosis" ;
+               rdfs:domain :Patient ;
+               rdfs:range :Disease .
+
+### Individuals (example data)
+:Patient1 rdf:type :Patient ;
+          rdfs:label "Maria Ivanova" .
+
+:Doctor1 rdf:type :Doctor ;
+         rdfs:label "Dr. Petrov" .
+
+:CardiologyDepartment rdf:type :MedicalDepartment ;
+                     rdfs:label "Cardiology Department" .
+
+:Hypertension rdf:type :Disease ;
+              rdfs:label "Hypertension" .
+
+:Amlodipine rdf:type :Medication ;
+            rdfs:label "Amlodipine" .
+
+:Prescription1 rdf:type :Prescription ;
+               rdfs:label "Maria's prescription" .
+
+### Relationships between individuals
+:Patient1 :treated_in_department :CardiologyDepartment .
+:Patient1 :has_diagnosis :Hypertension .
+:Doctor1 :works_in_department :CardiologyDepartment .
+:Prescription1 :has_prescribing_doctor :Doctor1 .
+:Prescription1 :prescribes_medication :Amlodipine .
+:CardiologyDepartment :specializes_in_disease :Hypertension .
+:Amlodipine :indicated_for_disease :Hypertension .
