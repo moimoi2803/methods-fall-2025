@@ -2,35 +2,73 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-
-### ОНТОЛОГИЯ ###
-<http://www.semanticweb.org/daucatmoi/ontologies/2025/9/family-task2> rdf:type owl:Ontology ;
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+# ONTOLOGY
+<http://www.semanticweb.org/daucatmoi/ontologies/2025/9/family-task2>
+    rdf:type owl:Ontology ;
     rdfs:label "Family Ontology - Task 2 (daucatmoi)" .
-
-### КЛАСС ###
+# CLASSES
 :Человек rdf:type owl:Class ;
     rdfs:label "Person" .
-
-### СВОЙСТВА ###
-:ИмеетРодителя rdf:type owl:ObjectProperty , owl:FunctionalProperty ;
+# OBJECT PROPERTIES
+:ИмеетРодителя rdf:type owl:ObjectProperty ;
     rdfs:label "hasParent" ;
     rdfs:domain :Человек ;
-    rdfs:range :Человек ;
-    owl:propertyDisjointWith :ИмеетРодителя .
-
-:ИмеетПредка rdf:type owl:ObjectProperty ;
-    rdfs:label "hasAncestor" ;
-    owl:propertyChainAxiom ( :ИмеетРодителя :ИмеетПредка ) .
-
-:ИмеетПотомка rdf:type owl:ObjectProperty ;
-    rdfs:label "hasDescendant" ;
-    owl:propertyChainAxiom ( :ИмеетПотомка :ИмеетРодителя ) .
+    rdfs:range :Человек .
 
 :ЯвляетсяРодителемДля rdf:type owl:ObjectProperty ;
     rdfs:label "isParentOf" ;
     owl:inverseOf :ИмеетРодителя .
 
-### СУЩНОСТИ ###
+:ИмеетПредка rdf:type owl:ObjectProperty ;
+    rdfs:label "hasAncestor" .
+
+:ИмеетПотомка rdf:type owl:ObjectProperty ;
+    rdfs:label "hasDescendant" .
+
+:Rule_HasAncestor rdf:type swrl:Imp ;
+    rdfs:label "Parent-Parent implies Ancestor" ;
+    swrl:body (
+        [ rdf:type swrl:IndividualPropertyAtom ;
+          swrl:propertyPredicate :ИмеетРодителя ;
+          swrl:argument1 :x ;
+          swrl:argument2 :y
+        ]
+        [ rdf:type swrl:IndividualPropertyAtom ;
+          swrl:propertyPredicate :ИмеетРодителя ;
+          swrl:argument1 :y ;
+          swrl:argument2 :z
+        ]
+    ) ;
+    swrl:head (
+        [ rdf:type swrl:IndividualPropertyAtom ;
+          swrl:propertyPredicate :ИмеетПредка ;
+          swrl:argument1 :x ;
+          swrl:argument2 :z
+        ]
+    ) .
+
+:Rule_HasDescendant rdf:type swrl:Imp ;
+    rdfs:label "Ancestor implies Descendant" ;
+    swrl:body (
+        [ rdf:type swrl:IndividualPropertyAtom ;
+          swrl:propertyPredicate :ИмеетПредка ;
+          swrl:argument1 :x ;
+          swrl:argument2 :y
+        ]
+    ) ;
+    swrl:head (
+        [ rdf:type swrl:IndividualPropertyAtom ;
+          swrl:propertyPredicate :ИмеетПотомка ;
+          swrl:argument1 :y ;
+          swrl:argument2 :x
+        ]
+    ) .
+
+# INDIVIDUALS
+
 :GGParent rdf:type :Человек ;
     rdfs:label "GGParent" .
 
